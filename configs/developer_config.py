@@ -7,6 +7,8 @@
 #
 # Using this config file should be accompanied with using
 # --test-url and --installer-url where appropiate
+import os
+
 config = {
     "developer_mode": True,
     "exes": {},
@@ -16,4 +18,7 @@ config = {
         ("http://pvtbuilds.pvt.build", "https://pvtbuilds"),
         ("http://tooltool.pvt.build.mozilla.org/build", "https://secure.pub.build.mozilla.org/tooltool/pvt/build")
     ],
+    "python_webserver": True,
+    "webroot": '%s/build/talos-data' % os.getcwd(),
+    "virtualenv_path": '%s/build/venv' % os.getcwd(),
 }
