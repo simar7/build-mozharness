@@ -160,7 +160,7 @@ class Talos(TestingMixin, MercurialScript, BlobUploadMixin):
                                               'run-tests',
                                               ])
         kwargs.setdefault('config', {})
-        kwargs['config'].setdefault('virtualenv_modules', ["talos", "mozinstall"])
+        kwargs['config'].setdefault('virtualenv_modules', ["mozinstall"])
         super(Talos, self).__init__(**kwargs)
 
         self.workdir = self.query_abs_dirs()['abs_work_dir']  # convenience
@@ -546,23 +546,16 @@ class Talos(TestingMixin, MercurialScript, BlobUploadMixin):
         # XXX This method could likely be replaced with a PreScriptAction hook.
         if self.has_cloned_talos:
             virtualenv_modules = list(self.config.get('virtualenv_modules', []))
-            if 'talos' in virtualenv_modules:
 
-                # Bug 900015 - Silent warnings on osx when libyaml is not found
-                pyyaml_module = {
-                    'name': 'PyYAML',
-                    'url': None,
-                    'global_options': ['--without-libyaml']
-                }
-                virtualenv_modules.insert(0, pyyaml_module)
+            # Bug 900015 - Silent warnings on osx when libyaml is not found
+            pyyaml_module = {
+                'name': 'PyYAML',
+                'url': None,
+                'global_options': ['--without-libyaml']
+            }
+            virtualenv_modules.insert(0, pyyaml_module)
 
-                i = virtualenv_modules.index('talos')
-                virtualenv_modules[i] = {
-                    'name': 'talos',
-                    'url': self.talos_path,
-                    'global_options': []
-                }
-                self.info(pprint.pformat(virtualenv_modules))
+            self.info(pprint.pformat(virtualenv_modules))
             return super(Talos, self).create_virtualenv(modules=virtualenv_modules)
         else:
             return super(Talos, self).create_virtualenv(**kwargs)
