@@ -10,6 +10,7 @@
 import os
 
 config = {
+    # General variables overwrite
     "developer_mode": True,
     "exes": {},
     "find_links": ["http://pypi.pub.build.mozilla.org/pub"],
@@ -18,7 +19,7 @@ config = {
         ("http://pvtbuilds.pvt.build", "https://pvtbuilds"),
         ("http://tooltool.pvt.build.mozilla.org/build", "https://secure.pub.build.mozilla.org/tooltool/pvt/build")
     ],
+    # Talos related
     "python_webserver": True,
-    "webroot": '%s/build/talos-data' % os.getcwd(),
     "virtualenv_path": '%s/build/venv' % os.getcwd(),
 }
