@@ -160,7 +160,7 @@ class Talos(TestingMixin, MercurialScript, BlobUploadMixin):
                                               'run-tests',
                                               ])
         kwargs.setdefault('config', {})
-        kwargs['config'].setdefault('virtualenv_modules', ["mozinstall"])
+        kwargs['config'].setdefault('virtualenv_modules', ["mozinstall", "mozdevice", "pyyaml", "mozversion", "datazilla", "mozcrash", "mozhttpd"])
         super(Talos, self).__init__(**kwargs)
 
         self.workdir = self.query_abs_dirs()['abs_work_dir']  # convenience
@@ -577,8 +577,8 @@ class Talos(TestingMixin, MercurialScript, BlobUploadMixin):
         python = self.query_python_path()
         self.run_command([python, "--version"])
         # run talos tests
-        talos = self.query_python_path('talos')
-        command = [talos, '--noisy', '--debug'] + options
+        talos = "../talos/talos/PerfConfigurator.py"
+        command = [talos] + options
         parser = TalosOutputParser(config=self.config, log_obj=self.log_obj,
                                    error_list=TalosErrorList)
         env = {}
@@ -589,6 +589,15 @@ class Talos(TestingMixin, MercurialScript, BlobUploadMixin):
         env = self.query_env(partial_env=env, log_level=INFO)
         # sets a timeout for how long talos should run without output
         output_timeout = self.config.get('talos_output_timeout', 3600)
+        # Call PerfConfigurator to generate talos.yml
+        self.return_code = self.run_command(command, cwd=self.workdir,
+                                            output_timeout=output_timeout,
+                                            output_parser=parser,
+                                            env=env)
+        # Call run_tests on generated talos.yml
+        run_tests = "../talos/talos/run_tests.py"
+        options = "./talos.yml"
+        command = [run_tests] + [options]
         self.return_code = self.run_command(command, cwd=self.workdir,
                                             output_timeout=output_timeout,
                                             output_parser=parser,
