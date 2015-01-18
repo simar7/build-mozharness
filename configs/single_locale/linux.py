@@ -1,16 +1,16 @@
 config = {
     "platform": "linux",
     "update_platform": "Linux_x86-gcc3",
-    "mozilla_dir": "%(branch)s",
     "mozconfig": "%(branch)s/browser/config/mozconfigs/linux32/l10n-mozconfig",
-    "src_xulrunner_mozconfig": "xulrunner/config/mozconfigs/macosx64/xulrunner",
-    "repack_env": {
+    "bootstrap_env": {
         "MOZ_OBJDIR": "obj-l10n",
         "EN_US_BINARY_URL": "%(en_us_binary_url)s",
         "LOCALE_MERGEDIR": "%(abs_merge_dir)s/",
         "MOZ_UPDATE_CHANNEL": "%(update_channel)s",
         "DIST": "%(abs_objdir)s",
         "LOCALE_MERGEDIR": "%(abs_merge_dir)s/",
+        "L10NBASEDIR": "../../l10n",
+        "MOZ_MAKE_COMPLETE_MAR": "1",
     },
     "log_name": "single_locale",
     "objdir": "obj-l10n",
@@ -59,7 +59,7 @@ config = {
     'installer_file': "firefox-%(version)s.en-US.linux-i686.tar.bz2",
 
     # Mock
-    'mock_target': 'mozilla-centos6-i386',
+    'mock_target': 'mozilla-centos6-x86_64',
     'mock_packages': [
         'autoconf213', 'python', 'mozilla-python27', 'zip', 'mozilla-python27-mercurial',
         'git', 'ccache', 'perl-Test-Simple', 'perl-Config-General',
@@ -112,6 +112,6 @@ config = {
         ('/home/cltbld/.hgrc', '/builds/.hgrc'),
         ('/home/cltbld/.boto', '/builds/.boto'),
         ('/builds/gapi.data', '/builds/gapi.data'),
-       ('/tools/tooltool.py', '/builds/tooltool.py'),
+        ('/tools/tooltool.py', '/builds/tooltool.py'),
     ],
 }
