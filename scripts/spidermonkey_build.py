@@ -47,6 +47,14 @@ class SpidermonkeyBuild(MockMixin,
             "dest": "repo",
             "help": "which gecko repo to get spidermonkey from",
         }],
+        [["--test-config"], {
+            "dest": "test_config",
+            "help": "Test configuration file(s) to use.",
+        }],
+        [["--cfg"], {
+            "dest": "cfg",
+            "help": "Build environment config to use.",
+        }],
         [["--revision"], {
             "dest": "revision",
         }],
