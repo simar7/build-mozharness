@@ -597,7 +597,7 @@ class Talos(TestingMixin, MercurialScript, BlobUploadMixin):
         # Call run_tests on generated talos.yml
         run_tests = "../talos/talos/run_tests.py"
         options = "./talos.yml"
-        command = [run_tests] + [options]
+        command = [run_tests, '--noisy', '--debug'] + [options]
         self.return_code = self.run_command(command, cwd=self.workdir,
                                             output_timeout=output_timeout,
                                             output_parser=parser,
